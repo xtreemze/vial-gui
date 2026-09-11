@@ -9,7 +9,7 @@ from PyQt5.QtCore import pyqtSignal
 import sys
 import json
 
-from main_window import MainWindow
+from custom_main_window import CustomMainWindow as MainWindow
 
 
 # http://timlehr.com/python-exception-hooks-with-qt-message-box/
