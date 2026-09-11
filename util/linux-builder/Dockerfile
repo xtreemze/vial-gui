@@ -1,15 +1,15 @@
 FROM ubuntu:18.04
 
-# Ubuntu 18.04's minimal image may not contain a CA bundle. Bootstrap it over
-# the image's original HTTP mirrors first, then move all subsequent package
-# traffic to HTTPS with retries. This keeps the legacy compatibility image
-# buildable without disabling certificate verification.
+# Ubuntu 18.04's minimal image may not contain a CA bundle. Bootstrap it from
+# the image's signed HTTP repositories, then use HTTPS for archive.ubuntu.com.
+# Keep the Bionic security pocket on security.ubuntu.com's signed HTTP feed:
+# its legacy HTTPS endpoint is not consistently usable from this image, while
+# APT still verifies the repository metadata and packages cryptographically.
 RUN apt-get -o Acquire::Retries=5 update && \
     DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=5 install -y ca-certificates && \
     update-ca-certificates && \
     sed -i \
         -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
-        -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' \
         /etc/apt/sources.list && \
     apt-get -o Acquire::Retries=5 update && \
     apt-cache show build-essential >/dev/null && \
