@@ -21,7 +21,6 @@ from protocol.halcyon_settings import (
     HALCYON_SETTINGS_COMMAND,
     HSV,
     HalcyonSettingsProtocol,
-    LayerStyle,
 )
 from util import MSG_LEN
 
@@ -184,7 +183,7 @@ class TestHalcyonSettingsProtocol(unittest.TestCase):
         with self.assertRaises(ValueError):
             HSV(256, 0, 0)
         with self.assertRaises(ValueError):
-            LayerStyle(HSV(1, 2, 3), HSV(4, 5, 6)).foreground.value = 999
+            HalcyonSettingsProtocol.set_timings(SimulatedKeyboard(), 70000, 1000)
 
 
 if __name__ == "__main__":
