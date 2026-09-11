@@ -1,10 +1,13 @@
 FROM ubuntu:18.04
 
-# GitHub-hosted runners intermittently fail the legacy Bionic mirrors over
-# plain HTTP. Keep the compatibility image, but use TLS and retry package
-# index/download requests so a partial apt index cannot masquerade as
-# missing build dependencies.
-RUN sed -i \
+# Ubuntu 18.04's minimal image may not contain a CA bundle. Bootstrap it over
+# the image's original HTTP mirrors first, then move all subsequent package
+# traffic to HTTPS with retries. This keeps the legacy compatibility image
+# buildable without disabling certificate verification.
+RUN apt-get -o Acquire::Retries=5 update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=5 install -y ca-certificates && \
+    update-ca-certificates && \
+    sed -i \
         -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
         -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' \
         /etc/apt/sources.list && \
