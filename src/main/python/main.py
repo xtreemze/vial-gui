@@ -16,7 +16,7 @@ from fbs_runtime.application_context.PyQt5 import ApplicationContext
 
 import sys
 
-from main_window import MainWindow
+from custom_main_window import CustomMainWindow as MainWindow
 
 
 # http://timlehr.com/python-exception-hooks-with-qt-message-box/
