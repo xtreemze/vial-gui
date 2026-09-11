@@ -301,21 +301,29 @@ class RGBProfiles(BasicEditor):
     def _choose_color(self):
         if self.profile is None:
             return
-        initial = QColor.fromHsv(self.profile.hue, self.profile.saturation, max(1, self.profile.brightness))
+        initial = QColor.fromHsvF(
+            self.profile.hue / 255.0,
+            self.profile.saturation / 255.0,
+            max(1, self.profile.brightness) / 255.0,
+        )
         color = QColorDialog.getColor(initial)
         if not color.isValid():
             return
-        hue, saturation, _value, _alpha = color.getHsv()
+        hue, saturation, _value, _alpha = color.getHsvF()
         if hue < 0:
             hue = 0
-        self.profile.hue = hue
-        self.profile.saturation = saturation
+        self.profile.hue = min(255, max(0, int(round(255 * hue))))
+        self.profile.saturation = min(255, max(0, int(round(255 * saturation))))
         self._update_color_button()
 
     def _update_color_button(self):
         if self.profile is None:
             return
-        color = QColor.fromHsv(self.profile.hue, self.profile.saturation, max(1, self.profile.brightness))
+        color = QColor.fromHsvF(
+            self.profile.hue / 255.0,
+            self.profile.saturation / 255.0,
+            max(1, self.profile.brightness) / 255.0,
+        )
         self.color.setStyleSheet("QPushButton { background-color: %s; }" % color.name())
 
     def _create_override(self):
