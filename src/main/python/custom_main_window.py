@@ -4,6 +4,9 @@ from editor.rgb_profiles import RGBProfiles
 from main_window import MainWindow
 
 
+CUSTOM_BUILD_TITLE = "Vial — xtreemze Halcyon extensions"
+
+
 class CustomMainWindow(MainWindow):
     """Vial main window with keyboard-specific extensions kept outside upstream core."""
 
@@ -12,6 +15,11 @@ class CustomMainWindow(MainWindow):
         # refresh, so make the extension sentinel available before calling it.
         self.rgb_profiles = None
         super().__init__(appctx)
+
+        # Keep the fork observable even when no compatible keyboard is connected.
+        # The web host also exposes its own build badge/manifest, but this title
+        # identifies native builds and makes screenshots/support reports unambiguous.
+        self.setWindowTitle(CUSTOM_BUILD_TITLE)
 
         self.rgb_profiles = RGBProfiles()
         insert_at = len(self.editors)
