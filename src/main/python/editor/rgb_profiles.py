@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (
     QComboBox,
@@ -8,7 +9,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
-    QSpinBox,
+    QSlider,
 )
 
 from editor.basic_editor import BasicEditor
@@ -92,25 +93,44 @@ class RGBProfiles(BasicEditor):
         row += 1
         self.brightness_label = QLabel("Brightness")
         self.form.addWidget(self.brightness_label, row, 0)
-        self.brightness = QSpinBox()
+        brightness_controls = QHBoxLayout()
+        self.brightness = QSlider(Qt.Horizontal)
+        self.brightness.setRange(0, 255)
+        self.brightness.setSingleStep(1)
+        self.brightness.setPageStep(16)
         self.brightness.valueChanged.connect(self._brightness_changed)
-        self.form.addWidget(self.brightness, row, 1)
+        brightness_controls.addWidget(self.brightness, 1)
+        self.brightness_value = QLabel("0")
+        brightness_controls.addWidget(self.brightness_value)
+        self.form.addLayout(brightness_controls, row, 1)
 
         row += 1
         self.speed_label = QLabel("Effect speed")
         self.form.addWidget(self.speed_label, row, 0)
-        self.speed = QSpinBox()
+        speed_controls = QHBoxLayout()
+        self.speed = QSlider(Qt.Horizontal)
         self.speed.setRange(0, 255)
+        self.speed.setSingleStep(1)
+        self.speed.setPageStep(16)
         self.speed.valueChanged.connect(self._speed_changed)
-        self.form.addWidget(self.speed, row, 1)
+        speed_controls.addWidget(self.speed, 1)
+        self.speed_value = QLabel("0")
+        speed_controls.addWidget(self.speed_value)
+        self.form.addLayout(speed_controls, row, 1)
 
         row += 1
-        self.combo_duration_label = QLabel("Combo highlight duration (ms)")
+        self.combo_duration_label = QLabel("Combo highlight duration")
         self.form.addWidget(self.combo_duration_label, row, 0)
-        self.combo_duration = QSpinBox()
+        combo_duration_controls = QHBoxLayout()
+        self.combo_duration = QSlider(Qt.Horizontal)
         self.combo_duration.setRange(250, 10000)
         self.combo_duration.setSingleStep(50)
-        self.form.addWidget(self.combo_duration, row, 1)
+        self.combo_duration.setPageStep(250)
+        self.combo_duration.valueChanged.connect(self._combo_duration_changed)
+        combo_duration_controls.addWidget(self.combo_duration, 1)
+        self.combo_duration_value = QLabel("2.00 s")
+        combo_duration_controls.addWidget(self.combo_duration_value)
+        self.form.addLayout(combo_duration_controls, row, 1)
 
         self.inheritance = QLabel("")
         self.inheritance.setWordWrap(True)
@@ -256,6 +276,8 @@ class RGBProfiles(BasicEditor):
             self.effect.setCurrentIndex(max(0, effect_index))
             self.brightness.setValue(self.profile.brightness)
             self.speed.setValue(self.profile.speed)
+            self._update_brightness_value(self.profile.brightness)
+            self._update_speed_value(self.profile.speed)
             self._update_color_button()
         self._loading = False
 
@@ -284,6 +306,7 @@ class RGBProfiles(BasicEditor):
         combo = self._current_scope() == RGB_PROFILE_SCOPE_COMBO
         self.combo_duration_label.setVisible(combo)
         self.combo_duration.setVisible(combo)
+        self.combo_duration_value.setVisible(combo)
 
     def _effect_changed(self, _index=None):
         if self._loading or self.profile is None or self.effect.currentIndex() < 0:
@@ -291,12 +314,30 @@ class RGBProfiles(BasicEditor):
         self.profile.mode = self.effect.currentData()
 
     def _brightness_changed(self, value):
+        self._update_brightness_value(value)
         if not self._loading and self.profile is not None:
             self.profile.brightness = value
+            self._update_color_button()
 
     def _speed_changed(self, value):
+        self._update_speed_value(value)
         if not self._loading and self.profile is not None:
             self.profile.speed = value
+
+    def _combo_duration_changed(self, value):
+        seconds = value / 1000.0
+        self.combo_duration_value.setText("{:.2f} s".format(seconds))
+        self.combo_duration.setToolTip("{} ms".format(value))
+
+    def _update_brightness_value(self, value):
+        maximum = max(1, self.brightness.maximum())
+        percent = int(round((100.0 * value) / maximum))
+        self.brightness_value.setText("{}%".format(percent))
+        self.brightness.setToolTip("{} / {}".format(value, maximum))
+
+    def _update_speed_value(self, value):
+        self.speed_value.setText(str(value))
+        self.speed.setToolTip("{} / 255".format(value))
 
     def _choose_color(self):
         if self.profile is None:
