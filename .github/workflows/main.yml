@@ -74,11 +74,35 @@ jobs:
         if ((Get-FileHash nsis-3.06.1-setup.exe -Algorithm sha256).Hash -ne "f60488a676308079bfdf6845dc7114cfd4bbff47b66be4db827b89bb8d7fdc52") { Write-Error 'SHA256 mismatch' }
         Start-Process -FilePath "nsis-3.06.1-setup.exe" -ArgumentList "/S", "/D=C:\Program Files (x86)\NSIS" -NoNewWindow -Wait
 
-    - name: Install Visual C++ Redistributable
+    - name: Install legacy Visual C++ runtimes required by fbs
       run: |
-        Invoke-WebRequest -Uri "https://download.microsoft.com/download/3/2/2/3224B87F-CFA0-4E70-BDA3-3DE650EFEBA5/vcredist_x64.exe" -OutFile "vcredist_x64.exe"
-        Start-Process -FilePath "vcredist_x64.exe" -ArgumentList "/install", "/quiet", "/norestart" -Wait
-        Remove-Item "vcredist_x64.exe"
+        $redists = @(
+          @{
+            Name = "Visual C++ 2010 x64"
+            Url = "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe"
+            File = "vcredist2010_x64.exe"
+            Sha256 = "F3B7A76D84D23F91957AA18456A14B4E90609E4CE8194C5653384ED38DADA6F3"
+          },
+          @{
+            Name = "Visual C++ 2012 Update 4 x64"
+            Url = "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe"
+            File = "vcredist2012_x64.exe"
+            Sha256 = "681BE3E5BA9FD3DA02C09D7E565ADFA078640ED66A0D58583EFAD2C1E3CC4064"
+          }
+        )
+        foreach ($redist in $redists) {
+          Invoke-WebRequest -Uri $redist.Url -OutFile $redist.File
+          if ((Get-FileHash $redist.File -Algorithm sha256).Hash -ne $redist.Sha256) {
+            Write-Error "$($redist.Name) SHA256 mismatch"
+          }
+          Start-Process -FilePath $redist.File -ArgumentList "/install", "/quiet", "/norestart" -Wait
+          Remove-Item $redist.File
+        }
+        foreach ($dll in @("msvcr100.dll", "msvcr110.dll", "msvcp110.dll")) {
+          if (-not (Test-Path "$env:WINDIR\System32\$dll")) {
+            Write-Error "Required fbs runtime DLL was not installed: $dll"
+          }
+        }
 
     - name: Build
       run: |

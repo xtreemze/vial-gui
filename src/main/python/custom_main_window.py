@@ -2,6 +2,59 @@
 
 from editor.rgb_profiles import RGBProfiles
 from main_window import MainWindow
+from vial_device import VialKeyboard
+
+
+CUSTOM_BUILD_TITLE = "Vial — xtreemze Halcyon extensions"
+
+
+class ObservableRGBProfiles(RGBProfiles):
+    """Keep the custom editor observable even when firmware probing fails."""
+
+    def valid(self):
+        # This fork deliberately keeps the extension tab present. A failed probe
+        # is actionable diagnostic state, not a reason to make the custom build
+        # visually indistinguishable from upstream Vial.
+        return True
+
+    def rebuild(self, device):
+        super().rebuild(device)
+
+        connection_controls = (
+            self.scope,
+            self.target,
+            self.combo_duration,
+            self.cancel_preview_button,
+            self.create_button,
+            self.clear_button,
+        )
+        supported = self.capabilities is not None
+        for widget in connection_controls:
+            widget.setEnabled(supported)
+
+        if supported:
+            self.status.setText(
+                "xtreemze extended RGB profile protocol v1 detected; controls are live."
+            )
+            return
+
+        self._set_profile_controls_enabled(False)
+        self.scope.clear()
+        self.target.clear()
+        self.effect.clear()
+        self.inheritance.setText("")
+
+        if isinstance(device, VialKeyboard):
+            self.status.setText(
+                "Custom Vial UI is active, but this keyboard did not expose the "
+                "xtreemze extended RGB profile protocol v1. Flash firmware containing "
+                "the host-editable RGB profile protocol, then reconnect or refresh."
+            )
+        else:
+            self.status.setText(
+                "Custom Vial UI is active. Connect the Halcyon Ferris running the "
+                "xtreemze firmware to enable extended RGB profile controls."
+            )
 
 
 class CustomMainWindow(MainWindow):
@@ -13,7 +66,12 @@ class CustomMainWindow(MainWindow):
         self.rgb_profiles = None
         super().__init__(appctx)
 
-        self.rgb_profiles = RGBProfiles()
+        # Keep the fork observable even when no compatible keyboard is connected.
+        # The web host also exposes its own build badge/manifest, but this title
+        # identifies native builds and makes screenshots/support reports unambiguous.
+        self.setWindowTitle(CUSTOM_BUILD_TITLE)
+
+        self.rgb_profiles = ObservableRGBProfiles()
         insert_at = len(self.editors)
         for index, (_editor, label) in enumerate(self.editors):
             if label == "Lighting":
