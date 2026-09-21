@@ -1,0 +1,24 @@
+[tool.ruff]
+target-version = "py37"
+line-length = 100
+src = ["src/main/python"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D203", # choose D211: no blank line before class docstrings
+  "D213", # choose D212: summary starts on first line
+]
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = false
+ignore-fully-untyped = false
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = []
+
+[tool.ruff.lint.pylint]
+max-args = 5
+max-branches = 8
+max-returns = 4
+max-statements = 40
