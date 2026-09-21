@@ -160,7 +160,7 @@ class HalcyonEditor(BasicEditor):
 
         try:
             device_name = device.title()
-        except Exception:
+        except KeyError:
             device_name = "Vial keyboard"
 
         self.halcyon_capabilities = HalcyonSettingsProtocol.probe(device.keyboard)
