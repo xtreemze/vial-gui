@@ -43,24 +43,4 @@ jobs:
           fi
 
       - name: Ruff fork-owned Python changes with all rules
-        shell: bash
-        run: |
-          base="${{ steps.range.outputs.base }}"
-          if [[ -z "$base" ]]; then
-            echo "No parent/base revision available; policy scanner completed."
-            exit 0
-          fi
-
-          mapfile -t files < <(
-            git diff --name-only --diff-filter=AM "$base" HEAD -- '*.py' |
-              grep -E '^src/main/python/(custom_[^/]+\.py|editor/halcyon[^/]*\.py|protocol/(rgb_profiles|halcyon[^/]*)\.py)$' || true
-          )
-
-          if (( ${#files[@]} == 0 )); then
-            echo "No changed fork-owned Python modules require Ruff."
-            exit 0
-          fi
-
-          printf 'Strict Ruff targets:\n'
-          printf '  %s\n' "${files[@]}"
-          ruff check --no-cache "${files[@]}"
+        run: python scripts/ruff-ratchet.py --base "${{ steps.range.outputs.base }}"
