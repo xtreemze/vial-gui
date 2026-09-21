@@ -195,10 +195,15 @@ def main() -> int:
                 )
 
         try:
-            tree = ast.parse(source, filename=str(relative))
+            tree = ast.parse(
+                source,
+                filename=str(relative),
+                feature_version=(3, 6),
+            )
         except SyntaxError as error:
             violations.append(
-                f"{relative}:{error.lineno or 1}: syntax-error: {error.msg}"
+                f"{relative}:{error.lineno or 1}: python36-syntax: "
+                f"{error.msg}; fork-owned runtime code must remain valid Python 3.6"
             )
             continue
 
