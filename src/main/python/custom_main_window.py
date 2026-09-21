@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from editor.halcyon import HalcyonEditor
+from editor.halcyon_control_center import HalcyonEditor
 from main_window import MainWindow
 
 
@@ -21,7 +21,7 @@ class CustomMainWindow(MainWindow):
         # identifies native builds and makes screenshots/support reports unambiguous.
         self.setWindowTitle(CUSTOM_BUILD_TITLE)
 
-        self.halcyon = HalcyonEditor(self.navigate_to_editor)
+        self.halcyon = HalcyonEditor()
         insert_at = len(self.editors)
         for index, (_editor, label) in enumerate(self.editors):
             if label == "Lighting":
@@ -36,11 +36,3 @@ class CustomMainWindow(MainWindow):
         super().rebuild()
         if self.halcyon is not None:
             self.halcyon.rebuild(self.autorefresh.current_device)
-
-    def navigate_to_editor(self, label):
-        """Switch to an existing top-level Vial editor by its visible label."""
-        for index in range(self.tabs.count()):
-            if self.tabs.tabText(index) == label:
-                self.tabs.setCurrentIndex(index)
-                return True
-        return False
