@@ -1,11 +1,12 @@
 FROM ubuntu:18.04
 
-# Ubuntu 18.04's archived base image can lack a usable CA bundle. Bootstrap
-# ca-certificates over the image's original HTTP mirrors first, then switch all
-# subsequent package traffic to TLS. This keeps the compatibility image while
-# avoiding the circular "HTTPS required before certificates exist" failure.
+# The legacy Bionic image does not reliably carry a usable CA trust store.
+# Bootstrap ca-certificates over the image's original HTTP mirrors before
+# switching package traffic to HTTPS. This keeps TLS verification enabled
+# without creating a chicken-and-egg failure during apt update.
 RUN apt-get -o Acquire::Retries=5 update && \
     DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=5 install -y ca-certificates && \
+    update-ca-certificates && \
     sed -i \
         -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
         -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' \

@@ -35,3 +35,7 @@ To launch the application afterwards:
 source venv/bin/activate
 fbs run
 ```
+
+#### Architecture migration
+
+The current Python/PyQt application remains the compatibility baseline while the xtreemze fork converges on a shared web/desktop configurator architecture. See [the desktop convergence plan](docs/DESKTOP_CONVERGENCE.md) and [migration parity matrix](docs/MIGRATION_PARITY.md). The active Halcyon editor work in PR #6 remains part of the reference behavior during this transition.
