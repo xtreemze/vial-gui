@@ -1,10 +1,13 @@
 FROM ubuntu:18.04
 
-# GitHub-hosted runners intermittently fail the legacy Bionic mirrors over
-# plain HTTP. Keep the compatibility image, but use TLS and retry package
-# index/download requests so a partial apt index cannot masquerade as
-# missing build dependencies.
-RUN sed -i \
+# The legacy Bionic image does not reliably carry a usable CA trust store.
+# Bootstrap ca-certificates over the image's original HTTP mirrors before
+# switching package traffic to HTTPS. This keeps TLS verification enabled
+# without creating a chicken-and-egg failure during apt update.
+RUN apt-get -o Acquire::Retries=5 update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=5 install -y ca-certificates && \
+    update-ca-certificates && \
+    sed -i \
         -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
         -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' \
         /etc/apt/sources.list && \
