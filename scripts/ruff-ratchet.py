@@ -7,6 +7,7 @@ import argparse
 import collections
 import fnmatch
 import json
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -20,10 +21,14 @@ OWNED_PATTERNS = (
 )
 
 
-def run(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+def run(
+    *args: str,
+    cwd: Path = ROOT,
+    check: bool = True,
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         args,
-        cwd=ROOT,
+        cwd=cwd,
         check=check,
         capture_output=True,
         text=True,
@@ -48,43 +53,48 @@ def changed_owned_files(base: str) -> list[str]:
     )
 
 
-def ruff_diagnostics(paths: list[Path]) -> collections.Counter[tuple[str, str, str]]:
-    if not paths:
+def ruff_diagnostics(
+    repository: Path,
+    paths: list[str],
+) -> collections.Counter[tuple[str, str, str]]:
+    existing = [path for path in paths if (repository / path).is_file()]
+    if not existing:
         return collections.Counter()
 
     command = [
         "ruff",
         "check",
         "--config",
-        str(ROOT / "pyproject.toml"),
+        str(repository / "pyproject.toml"),
         "--output-format=json",
         "--exit-zero",
-        *[str(path) for path in paths],
+        *existing,
     ]
-    result = run(*command)
+    result = run(*command, cwd=repository)
     diagnostics = json.loads(result.stdout)
     counter: collections.Counter[tuple[str, str, str]] = collections.Counter()
     for diagnostic in diagnostics:
         filename = Path(diagnostic["filename"])
-        marker = "src/main/python/"
-        normalized = filename.as_posix()
-        if marker in normalized:
-            normalized = marker + normalized.split(marker, 1)[1]
+        try:
+            normalized = filename.resolve().relative_to(repository.resolve()).as_posix()
+        except ValueError:
+            normalized = filename.as_posix()
         counter[(normalized, diagnostic["code"], diagnostic["message"])] += 1
     return counter
 
 
-def materialize_base(base: str, paths: list[str], directory: Path) -> list[Path]:
-    materialized: list[Path] = []
-    for relative in paths:
-        shown = run("git", "show", f"{base}:{relative}", check=False)
-        if shown.returncode != 0:
-            continue
-        destination = directory / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(shown.stdout, encoding="utf-8")
-        materialized.append(destination)
-    return materialized
+def baseline_diagnostics(
+    base: str,
+    paths: list[str],
+) -> collections.Counter[tuple[str, str, str]]:
+    with tempfile.TemporaryDirectory(prefix="vial-gui-ruff-") as parent:
+        worktree = Path(parent) / "base"
+        run("git", "worktree", "add", "--detach", str(worktree), base)
+        try:
+            shutil.copy2(ROOT / "pyproject.toml", worktree / "pyproject.toml")
+            return ruff_diagnostics(worktree, paths)
+        finally:
+            run("git", "worktree", "remove", "--force", str(worktree), check=False)
 
 
 def main() -> int:
@@ -101,10 +111,8 @@ def main() -> int:
     for path in paths:
         print(f"  {path}")
 
-    head = ruff_diagnostics([ROOT / path for path in paths])
-    with tempfile.TemporaryDirectory(prefix="vial-gui-ruff-base-") as temp:
-        base_paths = materialize_base(args.base, paths, Path(temp))
-        baseline = ruff_diagnostics(base_paths)
+    head = ruff_diagnostics(ROOT, paths)
+    baseline = baseline_diagnostics(args.base, paths)
 
     regressions: list[tuple[tuple[str, str, str], int, int]] = []
     for signature, head_count in head.items():
