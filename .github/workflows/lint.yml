@@ -1,0 +1,66 @@
+name: Strict lint policy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up static-analysis Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: python -m pip install --disable-pip-version-check ruff==0.16.8
+
+      - name: Enforce fork architecture and anti-pattern policy
+        run: python scripts/check-antipatterns.py
+
+      - name: Resolve changed-file lint range
+        id: range
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "base=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
+            echo "base=$(git rev-parse HEAD^)" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ruff fork-owned Python changes with all rules
+        shell: bash
+        run: |
+          base="${{ steps.range.outputs.base }}"
+          if [[ -z "$base" ]]; then
+            echo "No parent/base revision available; policy scanner completed."
+            exit 0
+          fi
+
+          mapfile -t files < <(
+            git diff --name-only --diff-filter=AM "$base" HEAD -- '*.py' |
+              grep -E '^src/main/python/(custom_[^/]+\.py|editor/halcyon[^/]*\.py|protocol/(rgb_profiles|halcyon[^/]*)\.py)$' || true
+          )
+
+          if (( ${#files[@]} == 0 )); then
+            echo "No changed fork-owned Python modules require Ruff."
+            exit 0
+          fi
+
+          printf 'Strict Ruff targets:\n'
+          printf '  %s\n' "${files[@]}"
+          ruff check --no-cache "${files[@]}"
