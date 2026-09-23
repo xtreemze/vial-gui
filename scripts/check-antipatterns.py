@@ -9,6 +9,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW_DIR = ROOT / ".github" / "workflows"
+WORKFLOW_USES = re.compile(r"(?m)^\\s*uses:\\s*([^\\s#]+)")
+FULL_COMMIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 OWNED_PATTERNS = (
     "src/main/python/custom_*.py",
     "src/main/python/editor/halcyon*.py",
@@ -185,6 +188,18 @@ class PolicyVisitor(ast.NodeVisitor):
 
 def main() -> int:
     violations: list[str] = []
+    workflows = list(WORKFLOW_DIR.glob("*.yml")) + list(WORKFLOW_DIR.glob("*.yaml"))
+    for workflow in sorted(workflows):
+        source = workflow.read_text(encoding="utf-8")
+        for action in WORKFLOW_USES.findall(source):
+            if action.startswith("./") or action.startswith("docker://"):
+                continue
+            if "@" not in action or not FULL_COMMIT_SHA.fullmatch(action.rsplit("@", 1)[1]):
+                violations.append(
+                    f"{workflow.relative_to(ROOT)}: workflow-action-pin: "
+                    f"{action} must use a full immutable commit SHA"
+                )
+
     for path in iter_owned_files():
         relative = path.relative_to(ROOT)
         source = path.read_text(encoding="utf-8")
