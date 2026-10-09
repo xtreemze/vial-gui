@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_DIR = ROOT / ".github" / "workflows"
-WORKFLOW_USES = re.compile(r"(?m)^\\s*uses:\\s*([^\\s#]+)")
+WORKFLOW_USES = re.compile(r"(?m)^\s*(?:-\s*)?uses:\s*([^\s#]+)")
 FULL_COMMIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 OWNED_PATTERNS = (
     "src/main/python/custom_*.py",
