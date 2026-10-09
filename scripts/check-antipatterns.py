@@ -10,7 +10,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_DIR = ROOT / ".github" / "workflows"
-WORKFLOW_USES = re.compile(r"(?m)^\s*(?:-\s*)?uses:\s*([^\s#]+)")
+WORKFLOW_USES = re.compile(
+    r"""(?m)(?:^\s*(?:-\s*)?|[,{]\s*)(?:uses|"uses"|'uses')\s*:\s*(?P<quote>["']?)(?P<action>[^"'\s#,\]}]+)(?P=quote)"""
+)
+DOCKER_DIGEST = re.compile(r"^docker://.+@sha256:[0-9a-f]{64}$")
 FULL_COMMIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 OWNED_PATTERNS = (
     "src/main/python/custom_*.py",
@@ -191,13 +194,19 @@ def main() -> int:
     workflows = list(WORKFLOW_DIR.glob("*.yml")) + list(WORKFLOW_DIR.glob("*.yaml"))
     for workflow in sorted(workflows):
         source = workflow.read_text(encoding="utf-8")
-        for action in WORKFLOW_USES.findall(source):
-            if action.startswith("./") or action.startswith("docker://"):
+        for match in WORKFLOW_USES.finditer(source):
+            action = match.group("action")
+            if action.startswith("./"):
                 continue
-            if "@" not in action or not FULL_COMMIT_SHA.fullmatch(action.rsplit("@", 1)[1]):
+            valid = (
+                DOCKER_DIGEST.fullmatch(action)
+                if action.startswith("docker://")
+                else "@" in action and FULL_COMMIT_SHA.fullmatch(action.rsplit("@", 1)[1])
+            )
+            if not valid:
                 violations.append(
                     f"{workflow.relative_to(ROOT)}: workflow-action-pin: "
-                    f"{action} must use a full immutable commit SHA"
+                    f"{action} must use an immutable commit SHA or Docker sha256 digest"
                 )
 
     for path in iter_owned_files():
