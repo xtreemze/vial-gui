@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import (
 )
 
 from editor.basic_editor import BasicEditor
+from editor.halcyon_palette import open_palette_dialog
 from protocol.rgb_profiles import (
     RGB_PROFILE_MODIFIER_ALT,
     RGB_PROFILE_MODIFIER_CONTROL,
@@ -60,6 +61,10 @@ class RGBProfiles(BasicEditor):
         )
         help_label.setWordWrap(True)
         self.addWidget(help_label)
+        self.palette_button = QPushButton("Import unified RGB / TFT palette…")
+        self.palette_button.clicked.connect(self._open_palette)
+        self.addWidget(self.palette_button)
+
 
         self.form = QGridLayout()
         self.addLayout(self.form)
@@ -167,6 +172,11 @@ class RGBProfiles(BasicEditor):
 
         self._set_profile_controls_enabled(False)
         self._update_scope_specific_visibility()
+
+    def _open_palette(self):
+        if self.keyboard is not None:
+            open_palette_dialog(self.keyboard)
+            self._target_changed()
 
     def valid(self):
         return self.capabilities is not None
