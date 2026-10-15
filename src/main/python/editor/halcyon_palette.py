@@ -50,6 +50,10 @@ class PaletteDialog(QDialog):
         self.status.setWordWrap(True)
         self.status.setTextFormat(Qt.PlainText)
         layout.addWidget(self.status)
+        self.abandon = QPushButton("Close without restoring")
+        self.abandon.clicked.connect(self._abandon)
+        self.abandon.hide()
+        layout.addWidget(self.abandon)
         self.preview = QPushButton("Preview on keyboard")
         self.save = QPushButton("Save permanently")
         self.restore = QPushButton("Restore previous")
@@ -113,9 +117,15 @@ class PaletteDialog(QDialog):
             self.batch = None
             self.status.setText("Previous runtime palette restored.")
         except FAILURES as error:
-            self.status.setText(f"Restore incomplete: {error}. Reconnect before retrying.")
+            self.status.setText(
+                f"Restore incomplete: {error}. Reconnect or close without restoring.",
+            )
+            self.abandon.show()
         self._update_buttons()
         return self.batch is None
+
+    def _abandon(self) -> None:
+        super().reject()
 
     def reject(self) -> None:
         """Restore an unsaved preview when the dialog closes."""

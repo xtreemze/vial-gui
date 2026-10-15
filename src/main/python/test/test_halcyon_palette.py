@@ -83,3 +83,26 @@ def test_accepts_canonical_web_generator_document():
     plan = validate_palette(json.loads(path.read_text()), caps(), tft)
     assert len(plan["rgb"]) == 50
     assert len(plan["tftModifiers"]) == 10
+
+
+def test_dialog_can_close_after_failed_restore(qtbot):
+    from editor.halcyon_palette import PaletteDialog
+
+    class Keyboard:
+        dev = object()
+
+    class FailedBatch:
+        applied = True
+
+        def restore(self):
+            raise RuntimeError("keyboard disconnected")
+
+    dialog = PaletteDialog(Keyboard())
+    qtbot.addWidget(dialog)
+    dialog.batch = FailedBatch()
+    dialog.show()
+    dialog.reject()
+    assert dialog.isVisible()
+    assert dialog.abandon.isVisible()
+    dialog.abandon.click()
+    assert not dialog.isVisible()
