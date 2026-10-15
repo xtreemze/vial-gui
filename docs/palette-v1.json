@@ -1,0 +1,834 @@
+{
+  "version": 1,
+  "rgb": [
+    {
+      "scope": 0,
+      "index": 0,
+      "rgb": {
+        "mode": 1,
+        "hue": 9,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 0,
+      "rgb": {
+        "mode": 1,
+        "hue": 9,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 1,
+      "rgb": {
+        "mode": 1,
+        "hue": 106,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 2,
+      "rgb": {
+        "mode": 1,
+        "hue": 203,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 3,
+      "rgb": {
+        "mode": 1,
+        "hue": 46,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 4,
+      "rgb": {
+        "mode": 1,
+        "hue": 143,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 5,
+      "rgb": {
+        "mode": 1,
+        "hue": 241,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 6,
+      "rgb": {
+        "mode": 1,
+        "hue": 83,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 7,
+      "rgb": {
+        "mode": 1,
+        "hue": 180,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 8,
+      "rgb": {
+        "mode": 1,
+        "hue": 23,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 9,
+      "rgb": {
+        "mode": 1,
+        "hue": 120,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 10,
+      "rgb": {
+        "mode": 1,
+        "hue": 218,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 11,
+      "rgb": {
+        "mode": 1,
+        "hue": 60,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 1,
+      "index": 12,
+      "rgb": {
+        "mode": 1,
+        "hue": 157,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 2,
+      "index": 0,
+      "rgb": {
+        "mode": 1,
+        "hue": 48,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 2,
+      "index": 1,
+      "rgb": {
+        "mode": 1,
+        "hue": 145,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 2,
+      "index": 2,
+      "rgb": {
+        "mode": 1,
+        "hue": 243,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 2,
+      "index": 3,
+      "rgb": {
+        "mode": 1,
+        "hue": 85,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 0,
+      "rgb": {
+        "mode": 1,
+        "hue": 67,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 1,
+      "rgb": {
+        "mode": 1,
+        "hue": 165,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 2,
+      "rgb": {
+        "mode": 1,
+        "hue": 7,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 3,
+      "rgb": {
+        "mode": 1,
+        "hue": 105,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 4,
+      "rgb": {
+        "mode": 1,
+        "hue": 202,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 5,
+      "rgb": {
+        "mode": 1,
+        "hue": 44,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 6,
+      "rgb": {
+        "mode": 1,
+        "hue": 142,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 7,
+      "rgb": {
+        "mode": 1,
+        "hue": 239,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 8,
+      "rgb": {
+        "mode": 1,
+        "hue": 82,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 9,
+      "rgb": {
+        "mode": 1,
+        "hue": 179,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 10,
+      "rgb": {
+        "mode": 1,
+        "hue": 21,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 11,
+      "rgb": {
+        "mode": 1,
+        "hue": 119,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 12,
+      "rgb": {
+        "mode": 1,
+        "hue": 216,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 13,
+      "rgb": {
+        "mode": 1,
+        "hue": 59,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 14,
+      "rgb": {
+        "mode": 1,
+        "hue": 156,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 15,
+      "rgb": {
+        "mode": 1,
+        "hue": 253,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 16,
+      "rgb": {
+        "mode": 1,
+        "hue": 96,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 17,
+      "rgb": {
+        "mode": 1,
+        "hue": 193,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 18,
+      "rgb": {
+        "mode": 1,
+        "hue": 36,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 19,
+      "rgb": {
+        "mode": 1,
+        "hue": 133,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 20,
+      "rgb": {
+        "mode": 1,
+        "hue": 230,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 21,
+      "rgb": {
+        "mode": 1,
+        "hue": 73,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 22,
+      "rgb": {
+        "mode": 1,
+        "hue": 170,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 23,
+      "rgb": {
+        "mode": 1,
+        "hue": 13,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 24,
+      "rgb": {
+        "mode": 1,
+        "hue": 110,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 25,
+      "rgb": {
+        "mode": 1,
+        "hue": 207,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 26,
+      "rgb": {
+        "mode": 1,
+        "hue": 50,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 27,
+      "rgb": {
+        "mode": 1,
+        "hue": 147,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 28,
+      "rgb": {
+        "mode": 1,
+        "hue": 245,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 29,
+      "rgb": {
+        "mode": 1,
+        "hue": 87,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 30,
+      "rgb": {
+        "mode": 1,
+        "hue": 184,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    },
+    {
+      "scope": 3,
+      "index": 31,
+      "rgb": {
+        "mode": 1,
+        "hue": 27,
+        "saturation": 210,
+        "brightness": 190,
+        "speed": 128
+      }
+    }
+  ],
+  "tftLayers": [
+    {
+      "index": 0,
+      "style": {
+        "foreground": {
+          "hue": 9,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 1,
+      "style": {
+        "foreground": {
+          "hue": 106,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 2,
+      "style": {
+        "foreground": {
+          "hue": 203,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 3,
+      "style": {
+        "foreground": {
+          "hue": 46,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 4,
+      "style": {
+        "foreground": {
+          "hue": 143,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 5,
+      "style": {
+        "foreground": {
+          "hue": 241,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 6,
+      "style": {
+        "foreground": {
+          "hue": 83,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 7,
+      "style": {
+        "foreground": {
+          "hue": 180,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 8,
+      "style": {
+        "foreground": {
+          "hue": 23,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 9,
+      "style": {
+        "foreground": {
+          "hue": 120,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 10,
+      "style": {
+        "foreground": {
+          "hue": 218,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 11,
+      "style": {
+        "foreground": {
+          "hue": 60,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    },
+    {
+      "index": 12,
+      "style": {
+        "foreground": {
+          "hue": 157,
+          "saturation": 210,
+          "value": 220
+        },
+        "background": {
+          "hue": 0,
+          "saturation": 0,
+          "value": 12
+        }
+      }
+    }
+  ],
+  "tftModifiers": [
+    {
+      "index": 0,
+      "color": {
+        "hue": 48,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 1,
+      "color": {
+        "hue": 145,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 2,
+      "color": {
+        "hue": 243,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 3,
+      "color": {
+        "hue": 85,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 4,
+      "color": {
+        "hue": 48,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 5,
+      "color": {
+        "hue": 243,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 6,
+      "color": {
+        "hue": 145,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 7,
+      "color": {
+        "hue": 145,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 8,
+      "color": {
+        "hue": 48,
+        "saturation": 210,
+        "value": 220
+      }
+    },
+    {
+      "index": 9,
+      "color": {
+        "hue": 243,
+        "saturation": 210,
+        "value": 220
+      }
+    }
+  ]
+}
